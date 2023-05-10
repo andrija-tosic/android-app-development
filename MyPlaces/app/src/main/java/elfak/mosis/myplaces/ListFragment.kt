@@ -2,13 +2,10 @@ package elfak.mosis.myplaces
 
 import android.os.Bundle
 import android.view.*
+import android.widget.*
+import android.widget.AdapterView.AdapterContextMenuInfo
 import androidx.fragment.app.Fragment
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ListView
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import elfak.mosis.myplaces.data.MyPlace
 import elfak.mosis.myplaces.databinding.FragmentListBinding
@@ -71,6 +68,27 @@ class ListFragment : Fragment() {
                 android.R.layout.simple_list_item_1,
                 myPlacesViewModel.myPlacesList
             )
+
+        myPlacesList.onItemClickListener =
+            AdapterView.OnItemClickListener { p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long ->
+                var place: MyPlace = p0?.adapter?.getItem(p2) as MyPlace
+
+                myPlacesViewModel.selected = place
+
+                findNavController().navigate(R.id.action_ListFragment_to_ViewFragment)
+            }
+
+        myPlacesList.setOnCreateContextMenuListener(object: View.OnCreateContextMenuListener {
+            override fun onCreateContextMenu(
+                menu: ContextMenu?,
+                view: View?,
+                menuInfo: ContextMenu.ContextMenuInfo?
+            ) {
+                val info = menuInfo as AdapterContextMenuInfo
+                val myPlace = myPlacesViewModel.myPlacesList[menuInfo.position]
+                menu?.add(0, 1, 1, "1")
+            }
+        })
     }
 
     override fun onDestroyView() {

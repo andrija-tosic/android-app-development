@@ -1,6 +1,8 @@
 package elfak.mosis.myplaces
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.*
 import android.widget.Button
 import android.widget.EditText
@@ -30,26 +32,6 @@ class EditFragment : Fragment() {
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_main, menu)
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        super.onPrepareOptionsMenu(menu)
-        val item = menu.findItem(R.id.action_new_place)
-        item.isVisible = false
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_new_place -> {
-                this.findNavController().navigate(R.id.action_EditFragment_to_ListFragment)
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -62,23 +44,45 @@ class EditFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val addButton: Button = requireView().findViewById<Button>(R.id.editmyplace_finished_button)
+        addButton.isEnabled = false
+
+        val editName: EditText =
+            requireView().findViewById<EditText>(R.id.editmyplace_name_edit)
+
+        editName.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                addButton.isEnabled = editName.text.isNotEmpty()
+            }
+        })
+
+        val name = editName.text.toString()
+
         addButton.setOnClickListener {
-            val editName: EditText =
-                requireView().findViewById<EditText>(R.id.editmyplace_name_edit)
-            val name = editName.text.toString()
+
 
             val editDesc: EditText =
                 requireView().findViewById<EditText>(R.id.editmyplace_desc_edit)
             val desc = editDesc.text.toString()
             myPlacesViewModel.addPlace(MyPlace(name, desc))
-            findNavController().navigate(R.id.action_EditFragment_to_ListFragment)
+            findNavController().popBackStack()
         }
 
         val cancelButton: Button =
             requireView().findViewById<Button>(R.id.editmyplace_cancel_button)
         cancelButton.setOnClickListener {
-            findNavController().navigate(R.id.action_EditFragment_to_ListFragment)
+            findNavController().popBackStack()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        myPlacesViewModel.selected = null
     }
 
 }

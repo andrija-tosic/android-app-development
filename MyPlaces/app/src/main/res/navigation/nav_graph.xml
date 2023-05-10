@@ -3,35 +3,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/HomeFragment">
+    app:startDestination="@id/FirstFragment">
 
     <fragment
-        android:id="@+id/HomeFragment"
-        android:name="elfak.mosis.myplaces.HomeFragment"
-        android:label="@string/home_fragment_label"
-        tools:layout="@layout/fragment_home">
+        android:id="@+id/FirstFragment"
+        android:name="elfak.mosis.myplaces.FirstFragment"
+        android:label="@string/first_fragment_label"
+        tools:layout="@layout/fragment_first">
 
         <action
-            android:id="@+id/action_HomeFragment_to_ListFragment"
-            app:destination="@id/ListFragment" />
-
-        <action
-            android:id="@+id/action_HomeFragment_to_EditFragment"
-            app:destination="@id/EditFragment" />
+            android:id="@+id/action_FirstFragment_to_SecondFragment"
+            app:destination="@id/SecondFragment" />
     </fragment>
     <fragment
-        android:id="@+id/ListFragment"
-        android:name="elfak.mosis.myplaces.ListFragment"
-        android:label="@string/list_fragment_label"
-        tools:layout="@layout/fragment_list">
+        android:id="@+id/SecondFragment"
+        android:name="elfak.mosis.myplaces.SecondFragment"
+        android:label="@string/second_fragment_label"
+        tools:layout="@layout/fragment_second">
 
         <action
+<<<<<<< HEAD
             android:id="@+id/action_ListFragment_to_HomeFragment"
             app:destination="@id/HomeFragment" />
 
         <action
             android:id="@+id/action_ListFragment_to_EditFragment"
             app:destination="@id/EditFragment" />
+
+        <action
+            android:id="@+id/action_ListFragment_to_ViewFragment"
+            app:destination="@id/ViewFragment" />
     </fragment>
     <fragment
         android:id="@+id/EditFragment"
@@ -46,5 +47,19 @@
         <action
             android:id="@+id/action_EditFragment_to_ListFragment"
             app:destination="@id/ListFragment" />
+=======
+            android:id="@+id/action_SecondFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+>>>>>>> parent of e85c516 (Single Activity Pattern, Fragments, ActivityViewModel)
+    </fragment>
+    <fragment
+        android:id="@+id/ViewFragment"
+        android:name="elfak.mosis.myplaces.ViewFragment"
+        android:label="View My Place"
+        tools:layout="@layout/fragment_view">
+
+<!--        <action-->
+<!--            android:id="@+id/action_ViewFragment_to_ListFragment"-->
+<!--            app:destination="@+id/ListFragment" />-->
     </fragment>
 </navigation>
